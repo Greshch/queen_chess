@@ -17,7 +17,7 @@ void prit_board_f()
     {
         for (int j = 0; j < SIZE; ++j)
         {
-            printf("%3d", board_v[i][j]);
+            printf("%3s", board_v[i][j] == QUEEN ? "@" : ".");
         }
         printf("\n");
     }
@@ -70,10 +70,6 @@ void set_queen_f(int row, int col)
 
 void reset_board(int row, int col)
 {
-    if (!is_valid_coord(row, col) || !is_queen_f(row, col))
-    {
-        return;
-    }
     int b1 = row - col;
     int b2 = row + col;
     int x1 = 0;
@@ -96,19 +92,44 @@ void reset_board(int row, int col)
     board_v[row][col] = EMPTY;
 }
 
+bool tryTurn(int n)
+{
+    bool result = false;
+    for (int i = 0; i < SIZE; ++i)
+    {
+        if (is_empty_f(n, i))
+        {
+            set_queen_f(n, i);
+            if (n == 7)
+            {
+                return true;
+            }
+            else
+            {
+                result = tryTurn(n + 1);
+                if (!result)
+                {
+                    reset_board(n, i);
+                }
+            }
+        }
+        if (result)
+            break;
+    }
+    return result;
+}
+
 int main(int argc, char** argv)
 {
-    if (argc < 3)
+    /*if (argc < 3)
     {
         return -1;
     }
     int row = stoi(argv[1]);
-    int col = stoi(argv[2]);
-    set_queen_f(0, 0);
+    int col = stoi(argv[2]);*/
     prit_board_f();
-    set_queen_f(row, col);
+    tryTurn(0);
     prit_board_f();
-    reset_board(row, col);
-    prit_board_f();
+
     return 0;
 }
