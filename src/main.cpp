@@ -51,17 +51,17 @@ void set_queen_f(int row, int col)
     int x2 = 0;
     for (int i = 0; i < SIZE; ++i)
     {
-        board_v[row][i] = BITTEN;
-        board_v[i][col] = BITTEN;
+        board_v[row][i]++;
+        board_v[i][col]++;
         x1 = i - b1;
         x2 = b2 - i;
-        if (is_valid_coord(i, x1) && is_empty_f(i, x1))
+        if (is_valid_coord(i, x1))
         {
-            board_v[i][x1] = BITTEN;
+            board_v[i][x1]++;
         }
-        if (is_valid_coord(i, x2) && is_empty_f(i, x2))
+        if (is_valid_coord(i, x2))
         {
-            board_v[i][x2] = BITTEN;
+            board_v[i][x2]++;
         }
 
     }
@@ -80,17 +80,17 @@ void reset_board(int row, int col)
     int x2 = 0;
     for (int i = 0; i < SIZE; ++i)
     {
-        board_v[row][i] = EMPTY;
-        board_v[i][col] = EMPTY;
+        board_v[row][i]--;
+        board_v[i][col]--;
         x1 = i - b1;
         x2 = b2 - i;
-        if (is_valid_coord(i, x1) && !is_queen_f(i, x1))
+        if (is_valid_coord(i, x1))
         {
-            board_v[i][x1] = EMPTY;
+            board_v[i][x1]--;
         }
-        if (is_valid_coord(i, x2) && !is_queen_f(i, x2))
+        if (is_valid_coord(i, x2))
         {
-            board_v[i][x2] = EMPTY;
+            board_v[i][x2]--;
         }
     }
     board_v[row][col] = EMPTY;
