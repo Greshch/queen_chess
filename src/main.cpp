@@ -11,7 +11,7 @@ enum BOARD_STATUS
 
 int board_v[SIZE][SIZE] {EMPTY};
 
-void prit_board_f()
+void print_board_f()
 {
     for (int i = 0; i < SIZE; ++i)
     {
@@ -92,7 +92,18 @@ void reset_board(int row, int col)
     board_v[row][col] = EMPTY;
 }
 
-bool tryTurn(int n)
+void power_off_board_f()
+{
+    for (int i = 0; i < SIZE; ++i)
+    {
+        for (int j = 0; j < SIZE; ++j)
+        {
+            board_v[i][j] = 0;
+        }
+    }
+}
+
+bool tryTurn(int n) // Only one solution
 {
     bool result = false;
     for (int i = 0; i < SIZE; ++i)
@@ -119,6 +130,80 @@ bool tryTurn(int n)
     return result;
 }
 
+bool is_intersect_f(int x1, int x2, int x3, int x4, int x5, int x6, int x7, int x8) // rude show!!
+{
+    return x1 == x2 || x1 == x3 || x1 == x4 || x1 == x5 || x1 == x6 || x1 == x7 || x1 == x8
+           ||
+           x2 == x3 || x2 == x4 || x2 == x5 || x2 == x6 || x2 == x7 || x2 == x8
+           ||
+           x3 == x4 || x3 == x5 || x3 == x6 || x3 == x7 || x3 == x8
+           ||
+           x4 == x5 || x4 == x6 || x4 == x7 || x4 == x8
+           ||
+           x5 == x6 || x5 == x7 || x5 == x8
+           ||
+           x6 == x7 || x6 == x8
+           ||
+           x7 == x8
+           ||
+           abs(x1 - x2) == 1 || abs(x1 - x3) == 2 || abs(x1 - x4) == 3 || abs(x1 - x5) == 4 || abs(x1 - x6) == 5 || abs(x1 - x7) == 6 || abs(x1 - x8) == 7
+           ||
+           abs(x2 - x3) == 1 || abs(x2 - x4) == 2 || abs(x2 - x5) == 3 || abs(x2 - x6) == 4 || abs(x2 - x7) == 5 || abs(x2 - x8) == 6
+           ||
+           abs(x3 - x4) == 1 || abs(x3 - x5) == 2 || abs(x3 - x6) == 3 || abs(x3 - x7) == 4 || abs(x3 - x8) == 5
+           ||
+           abs(x4 - x5) == 1 || abs(x4 - x6) == 2 || abs(x5 - x7) == 3 || abs(x5 - x8) == 4
+           ||
+           abs(x5 - x6) == 1 || abs(x5- x7) == 2 || abs(x5 - x8) == 3
+           ||
+           abs(x6 - x7) == 1 || abs(x6- x8) == 2
+           ||
+           abs(x7- x8) == 1;
+}
+
+void rude_iterations_solution_f()
+{
+    int solutions = 0;
+    for (int i1 = 0; i1 < SIZE; ++i1)
+    {
+        for (int i2 = 0; i2 < SIZE; ++i2)
+        {
+            for (int i3 = 0; i3 < SIZE; ++i3)
+            {
+                for (int i4 = 0; i4 < SIZE; ++i4)
+                {
+                    for (int i5 = 0; i5 < SIZE; ++i5)
+                    {
+                        for (int i6 = 0; i6 < SIZE; ++i6)
+                        {
+                            for (int i7 = 0; i7 < SIZE; ++i7)
+                            {
+                                for (int i8 = 0; i8 < SIZE; ++i8)
+                                {
+                                    if (!is_intersect_f(i1, i2, i3, i4, i5, i6, i7, i8))
+                                    {
+                                        board_v[0][i1] = -1;
+                                        board_v[1][i2] = -1;
+                                        board_v[2][i3] = -1;
+                                        board_v[3][i4] = -1;
+                                        board_v[4][i5] = -1;
+                                        board_v[5][i6] = -1;
+                                        board_v[6][i7] = -1;
+                                        board_v[7][i8] = -1;
+                                        cout << "\n\t" << solutions++ << endl;
+                                        print_board_f();
+                                        power_off_board_f();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 int main(int argc, char** argv)
 {
     /*if (argc < 3)
@@ -127,9 +212,11 @@ int main(int argc, char** argv)
     }
     int row = stoi(argv[1]);
     int col = stoi(argv[2]);*/
-    prit_board_f();
+    /*print_board_f();
     tryTurn(0);
-    prit_board_f();
+    print_board_f();*/
+
+    rude_iterations_solution_f();
 
     return 0;
 }
