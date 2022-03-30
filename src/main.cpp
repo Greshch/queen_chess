@@ -1,4 +1,5 @@
 #include <iostream>
+#include <GL/freeglut.h>
 using namespace std;
 
 int const SIZE = 8;
@@ -103,33 +104,6 @@ void power_off_board_f()
     }
 }
 
-bool tryTurn(int n) // Only one solution
-{
-    bool result = false;
-    for (int i = 0; i < SIZE; ++i)
-    {
-        if (is_empty_f(n, i))
-        {
-            set_queen_f(n, i);
-            if (n == 7)
-            {
-                return true;
-            }
-            else
-            {
-                result = tryTurn(n + 1);
-                if (!result)
-                {
-                    reset_board(n, i);
-                }
-            }
-        }
-        if (result)
-            break;
-    }
-    return result;
-}
-
 bool is_intersect_f(int x1, int x2, int x3, int x4, int x5, int x6, int x7, int x8) // rude show!!
 {
     return x1 == x2 || x1 == x3 || x1 == x4 || x1 == x5 || x1 == x6 || x1 == x7 || x1 == x8
@@ -204,19 +178,19 @@ void rude_iterations_solution_f()
     }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////    OpenGL     //////////////////////////////////////////////////////
+int const pixel = 32;
+int const WIDTH = 10 * pixel;
+int const HEIGHT = 10 * pixel;
+
+
+
 int main(int argc, char** argv)
 {
-    /*if (argc < 3)
-    {
-        return -1;
-    }
-    int row = stoi(argv[1]);
-    int col = stoi(argv[2]);*/
-    /*print_board_f();
-    tryTurn(0);
-    print_board_f();*/
-
     rude_iterations_solution_f();
+    glutInit(&argc, argv);
 
+    glutMainLoop();
     return 0;
 }
